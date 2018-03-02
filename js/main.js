@@ -9,6 +9,10 @@ function saveBookmark(e){
     var siteName = document.getElementById('siteName').value;
     var siteURL = document.getElementById('siteURL').value;
     
+   if(!validateForm(siteName,siteURL)){
+       return false
+   }
+
     var bookmark = {
         name: siteName,
         url: siteURL
@@ -40,7 +44,10 @@ function saveBookmark(e){
 
         
     } 
-// re-fetch bookmarks
+
+    // clear form
+    document.getElementById('myForm').reset();
+    // re-fetch bookmarks
     fetchBookmarks();
     // Prevents form from submitting
     e.preventDefault();
@@ -85,4 +92,23 @@ function fetchBookmarks() {
                                      '</div>';
     }
 
+}
+
+
+//validate Form
+function validateForm(siteName, siteURL){
+    if(!siteName || !siteURL){
+        alert('Pleace fill in the form')
+        return false
+    }
+    var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    var regex = new RegExp(expression);
+
+    if(!siteURL.match(regex)){
+        alert('please use a valid URL')
+        return false;
+
+    }
+
+    return true
 }
